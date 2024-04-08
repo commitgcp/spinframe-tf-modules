@@ -1,0 +1,79 @@
+project_id = "project-id"
+region     = "us-central1"
+name       = "my-infrastructure"
+#domains    = ["domain1", "domain2"]
+
+instance_template = {
+  machine_type = "e2-small"
+  tags         = ["web-server", "default"]
+  labels = {
+    environment = "dev",
+    app         = "my-app"
+  }
+  startup_script = "startup-script.sh"
+  metadata = {
+    role = "web-server"
+  }
+  source_image                     = "projects/debian-cloud/global/images/debian-10-buster-v20200910"
+  disk_size_gb                     = 10
+  disk_type                        = "pd-standard"
+  auto_delete                      = true
+  can_ip_forward                   = false
+  source_image_family              = "debian-10"
+  source_image_project             = "debian-cloud"
+  automatic_restart                = true
+  enable_confidential_vm           = false
+  enable_nested_virtualization     = false
+  enable_shielded_vm               = false
+  preemptible                      = false
+  spot                             = false
+  spot_instance_termination_action = "STOP"
+  total_egress_bandwidth_tier      = "DEFAULT"
+}
+
+managed_instance_group = {
+  target_size                      = 1
+  distribution_policy_zones        = ["us-central1-a"]
+  autoscaling_enabled              = false
+  max_replicas                     = 2
+  min_replicas                     = 1
+  cooldown_period                  = 60
+  autoscaling_mode                 = "ON"
+  distribution_policy_target_shape = "EVEN"
+}
+
+load_balancer = {
+  create_http_forward       = true
+  http_forward_port         = 80
+  https_port                = 443
+  https_redirect            = true
+  ssl                       = true
+  create_address            = true
+  create_ipv6_address       = false
+  create_url_map            = true
+  enable_ipv6               = false
+  firewall_networks         = ["default"]
+  firewall_projects         = ["project-id"]
+  load_balancing_scheme     = "EXTERNAL_MANAGED"
+  random_certificate_suffix = false
+}
+
+load_balancer_backend = {
+  enable_cdn              = false
+  backend_protocol        = "HTTP"
+  backend_port            = 80
+  backend_port_name       = "http"
+  iap_config              = { enable = false }
+  session_affinity        = "NONE"
+  affinity_cookie_ttl_sec = 0
+  timeout_sec             = 30
+  http_health_check = {
+    check_interval_sec  = 30
+    healthy_threshold   = 1
+    timeout_sec         = 5
+    unhealthy_threshold = 5
+    port                = 80
+    request_path        = "/"
+    logging             = false
+  }
+}

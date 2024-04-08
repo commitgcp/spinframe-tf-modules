@@ -1,0 +1,6 @@
+.terraform*
+backend.tf
+main.tf
+terraform.tfvars
+variables.tf.old
+.pre-commit-config*
