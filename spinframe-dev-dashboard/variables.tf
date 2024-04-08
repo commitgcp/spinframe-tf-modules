@@ -26,7 +26,6 @@ variable "labels" {
 variable "domains" {
   description = "Domains for which a managed SSL certificate will be valid."
   type        = list(string)
-  default     = []
 }
 
 variable "network" {
