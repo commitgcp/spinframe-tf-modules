@@ -1,4 +1,4 @@
-project_id = "spinframe-dev-client"
+project_id = "spinframe-dev-rs"
 region     = "us-central1"
 name       = "my-infrastructure"
 domains    = ["domain1", "domain2"] # can use <EXTERNAL_IP_ADDRESS>.sslip.io
@@ -54,7 +54,7 @@ load_balancer = {
   create_url_map            = true
   enable_ipv6               = false
   firewall_networks         = ["default"]
-  firewall_projects         = ["spinframe-dev-client"]
+  firewall_projects         = ["spinframe-dev-rs"]
   load_balancing_scheme     = "EXTERNAL_MANAGED"
   random_certificate_suffix = false
 }
