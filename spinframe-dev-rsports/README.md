@@ -1,6 +1,6 @@
 # spinframe-dev-rsports module
 
-This repository contains a terraform module which creates a Managed Instance Group with an HTTP(s) Load Balancer in Google Cloud Platform, as well as a Pub/Sub Topic which machines in the MIG may write to.
+This repository contains a terraform module which creates a Managed Instance Group with an HTTP(s) Load Balancer in Google Cloud Platform, as well as a Pub/Sub Topic which machines in the MIG may write to. In addition, the service account which runs the MIG is given Cloud Vision Admin permissions.
 
 ## Support
 
