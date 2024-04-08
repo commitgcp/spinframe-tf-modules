@@ -54,4 +54,5 @@ No requirements.
 |------|-------------|
 | <a name="output_instance_group"></a> [instance\_group](#output\_instance\_group) | The URL of the Managed Instance Group. |
 | <a name="output_load_balancer_ip"></a> [load\_balancer\_ip](#output\_load\_balancer\_ip) | The external IP of the HTTP(s) Load Balancer. |
+| <a name="output_mig_service_account"></a> [mig\_service\_account](#output\_mig\_service\_account) | The email of the service account which runs the Managed Instance Group |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
