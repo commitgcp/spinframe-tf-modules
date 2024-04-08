@@ -1,7 +1,7 @@
 project_id = "project-id"
 region     = "us-central1"
 name       = "my-infrastructure"
-#domains    = ["domain1", "domain2"]
+domains    = ["domain1", "domain2"] # can use <EXTERNAL_IP_ADDRESS>.sslip.io
 
 instance_template = {
   machine_type = "e2-small"
@@ -43,12 +43,13 @@ managed_instance_group = {
 }
 
 load_balancer = {
+  address                   = "<EXTERNAL_IP_ADDRESS>"
   create_http_forward       = true
   http_forward_port         = 80
   https_port                = 443
   https_redirect            = true
   ssl                       = true
-  create_address            = true
+  create_address            = false
   create_ipv6_address       = false
   create_url_map            = true
   enable_ipv6               = false

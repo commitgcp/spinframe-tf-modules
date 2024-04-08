@@ -61,6 +61,7 @@ module "instance_template" {
   threads_per_core                 = var.instance_template.threads_per_core
   total_egress_bandwidth_tier      = var.instance_template.total_egress_bandwidth_tier
 
+  depends_on = [google_service_account.mig_sa]
 }
 
 
@@ -177,5 +178,6 @@ module "lb_http" {
   target_tags                     = var.load_balancer.target_tags
   url_map                         = var.load_balancer.url_map
 
+  depends_on = [google_compute_managed_ssl_certificate.default]
   # Additional configurations can be added as required
 }
