@@ -47,7 +47,6 @@ variable "instance_template" {
     Configuration for the instance template includes:
     - access_config: Access configurations, i.e., IPs via which the VM instance can be accessed via the Internet.
     - additional_disks: List of additional disk configurations.
-    - additional_networks: Additional network interface details for GCE, if any.
     - alias_ip_range: An array of alias IP ranges for this network interface.
     - auto_delete: Whether the disk will be auto-deleted when the instance is deleted.
     - automatic_restart: Specifies whether the instance should be automatically restarted if it is terminated by Compute Engine.
@@ -56,9 +55,6 @@ variable "instance_template" {
     - disk_labels: A map of labels to attach to the disk.
     - disk_size_gb: The size of the disk attached to each instance, specified in GB.
     - disk_type: The type of the disk attached to each instance.
-    - enable_confidential_vm: Whether to enable the Confidential VM configuration on the instance.
-    - enable_nested_virtualization: Defines whether the instance should have nested virtualization enabled.
-    - enable_shielded_vm: Whether to enable the Shielded VM configuration on the instance.
     - gpu: GPU information. Type and count of GPU to attach to the instance template.
     - ipv6_access_config: IPv6 access configurations.
     - machine_type: The machine type to use for the compute instances.
@@ -66,22 +62,15 @@ variable "instance_template" {
     - metadata: Metadata key/value pairs to make available from within the compute instances.
     - min_cpu_platform: Specifies a minimum CPU platform.
     - network_ip: Private IP address to assign to the instance if desired.
-    - nic_type: Valid values are 'VIRTIO_NET', 'GVNIC' or set to null to accept API default behavior.
     - on_host_maintenance: Instance availability Policy.
-    - preemptible: Allow the instance to be preempted.
     - resource_policies: A list of self_links of resource policies to attach to the instance.
-    - shielded_instance_config: Shielded VM configuration for the instance.
     - source_image: The source image for the disks attached to the compute instances.
     - source_image_family: The family of the source image for the disk.
     - source_image_project: The project of the source image for the disk.
-    - spot: Provision a SPOT instance.
-    - spot_instance_termination_action: Action to take when Compute Engine preempts a Spot VM.
     - stack_type: The stack type for this network interface to identify whether the IPv6 feature is enabled or not.
     - startup_script: The startup script to run on each compute instance.
     - subnetwork: The subnetwork to deploy to.
     - tags: A list of tags to attach to the compute instances.
-    - threads_per_core: The number of threads per physical core.
-    - total_egress_bandwidth_tier: Egress bandwidth tier setting for supported VM families.
   EOD
 
   type = object({
@@ -99,26 +88,6 @@ variable "instance_template" {
       disk_size_gb = number
       labels       = map(string)
     })), [])
-    additional_networks = optional(list(object({
-      network            = string
-      subnetwork         = string
-      subnetwork_project = string
-      network_ip         = string
-      nic_type           = string
-      stack_type         = string
-      queue_count        = number
-      access_config = list(object({
-        nat_ip       = string
-        network_tier = string
-      }))
-      ipv6_access_config = list(object({
-        network_tier = string
-      }))
-      alias_ip_range = list(object({
-        ip_cidr_range         = string
-        subnetwork_range_name = string
-      }))
-    })), [])
     alias_ip_range = optional(object({
       ip_cidr_range         = string
       subnetwork_range_name = string
@@ -130,9 +99,6 @@ variable "instance_template" {
     disk_labels                  = optional(map(string), {})
     disk_size_gb                 = optional(number, 10)
     disk_type                    = optional(string, "pd-standard")
-    enable_confidential_vm       = optional(bool, false)
-    enable_nested_virtualization = optional(bool, false)
-    enable_shielded_vm           = optional(bool, false)
     gpu = optional(object({
       type  = string
       count = number
@@ -145,30 +111,15 @@ variable "instance_template" {
     metadata             = optional(map(string), {})
     min_cpu_platform     = optional(string, null)
     network_ip           = optional(string, "")
-    nic_type             = optional(string, null)
     on_host_maintenance  = optional(string, "MIGRATE")
-    preemptible          = optional(bool, false)
     resource_policies    = optional(list(string), [])
-    shielded_instance_config = optional(object({
-      enable_secure_boot          = bool
-      enable_vtpm                 = bool
-      enable_integrity_monitoring = bool
-      }), {
-      enable_secure_boot          = false
-      enable_vtpm                 = true
-      enable_integrity_monitoring = true
-    })
     source_image                     = optional(string, "debian-cloud/debian-9")
     source_image_family              = optional(string, null)
     source_image_project             = optional(string, null)
-    spot                             = optional(bool, false)
-    spot_instance_termination_action = optional(string, "STOP")
     stack_type                       = optional(string, null)
     startup_script                   = optional(string, "")
     subnetwork                       = optional(string, "")
     tags                             = optional(list(string), [])
-    threads_per_core                 = optional(number, null)
-    total_egress_bandwidth_tier      = optional(string, "DEFAULT")
   })
 }
 
@@ -319,7 +270,6 @@ variable "load_balancer" {
     - load_balancing_scheme: Load balancing scheme type (EXTERNAL, EXTERNAL_MANAGED, INTERNAL_SELF_MANAGED).
     - managed_ssl_certificate_domains: List of domains for managed SSL certificates.
     - private_key: Content of the private SSL key.
-    - quic: Specifies the QUIC override policy for this resource.
     - random_certificate_suffix: Bool to enable/disable random certificate name generation.
     - server_tls_policy: The resource URL for the server TLS policy to associate with the https proxy service.
     - ssl: Enable SSL for the load balancer.
@@ -349,7 +299,6 @@ variable "load_balancer" {
     load_balancing_scheme           = optional(string, "EXTERNAL_MANAGED")
     managed_ssl_certificate_domains = optional(list(string), [])
     private_key                     = optional(string, null)
-    quic                            = optional(bool, null)
     random_certificate_suffix       = optional(bool, false)
     server_tls_policy               = optional(string, null)
     ssl                             = optional(bool, false)
@@ -380,7 +329,6 @@ variable "load_balancer_backend" {
     - compression_mode: Compress text responses using Brotli or gzip compression.
     - custom_request_headers: Headers that the HTTP/S load balancer should add to proxied requests.
     - custom_response_headers: Headers that the HTTP/S load balancer should add to proxied responses.
-    - edge_security_policy: The edge security policy associated with this backend service.
     - enable_cdn: Enable CDN for load balancer backend.
     - http_health_check: HTTP health check configuration.
     - iap_config: IAP config for load balancer.
@@ -421,7 +369,6 @@ variable "load_balancer_backend" {
     compression_mode        = optional(string, "")
     custom_request_headers  = optional(list(string), [])
     custom_response_headers = optional(list(string), [])
-    edge_security_policy    = optional(string, null)
     http_health_check = optional(object({
       check_interval_sec  = optional(number)
       healthy_threshold   = optional(number)

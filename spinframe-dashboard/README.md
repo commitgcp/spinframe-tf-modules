@@ -1,4 +1,4 @@
-# spinframe-dev-dashboard module
+# spinframe-dashboard module
 
 This repository contains a terraform module which creates a Managed Instance Group with an HTTP(s) Load Balancer in Google Cloud Platform. The user must provide a CDN configuration for the backend service.
 

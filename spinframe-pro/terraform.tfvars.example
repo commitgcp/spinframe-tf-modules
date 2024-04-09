@@ -1,4 +1,4 @@
-project_id = "spinframe-dev-dashboard"
+project_id = "spinframe-dev-pro"
 region     = "us-central1"
 name       = "my-infrastructure"
 domains    = ["domain1", "domain2"] # can use <EXTERNAL_IP_ADDRESS>.sslip.io
@@ -22,13 +22,6 @@ instance_template = {
   source_image_family              = "debian-10"
   source_image_project             = "debian-cloud"
   automatic_restart                = true
-  enable_confidential_vm           = false
-  enable_nested_virtualization     = false
-  enable_shielded_vm               = false
-  preemptible                      = false
-  spot                             = false
-  spot_instance_termination_action = "STOP"
-  total_egress_bandwidth_tier      = "DEFAULT"
 }
 
 managed_instance_group = {
@@ -54,14 +47,13 @@ load_balancer = {
   create_url_map            = true
   enable_ipv6               = false
   firewall_networks         = ["default"]
-  firewall_projects         = ["spinframe-dev-dashboard"]
+  firewall_projects         = ["spinframe-dev-pro"]
   load_balancing_scheme     = "EXTERNAL_MANAGED"
   random_certificate_suffix = false
 }
 
 load_balancer_backend = {
-  enable_cdn              = true
-  cdn_policy              = {}
+  enable_cdn              = false
   backend_protocol        = "HTTP"
   backend_port            = 80
   backend_port_name       = "http"

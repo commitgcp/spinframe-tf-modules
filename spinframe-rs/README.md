@@ -1,6 +1,6 @@
-# spinframe-dev-pro module
+# spinframe-rs module
 
-This repository contains a terraform module which creates a Managed Instance Group with an HTTP(s) Load Balancer in Google Cloud Platform.
+This repository contains a terraform module which creates a Managed Instance Group with an HTTP(s) Load Balancer in Google Cloud Platform, as well as a Pub/Sub Topic which machines in the MIG may write to.
 
 ## Support
 
@@ -14,7 +14,9 @@ No requirements.
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_google"></a> [google](#provider\_google) | 5.23.0 |
 
 ## Modules
 
@@ -24,7 +26,10 @@ No providers.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [google_pubsub_topic.app_topic](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_topic) | resource |
+| [google_pubsub_topic_iam_binding.pubsub_publisher](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/pubsub_topic_iam_binding) | resource |
 
 ## Inputs
 
@@ -47,4 +52,5 @@ No resources.
 |------|-------------|
 | <a name="output_instance_group"></a> [instance\_group](#output\_instance\_group) | The URL of the Managed Instance Group. |
 | <a name="output_load_balancer_ip"></a> [load\_balancer\_ip](#output\_load\_balancer\_ip) | The external IP of the HTTP(s) Load Balancer. |
+| <a name="output_pubsub_topic_id"></a> [pubsub\_topic\_id](#output\_pubsub\_topic\_id) | The id of the Pub/Sub Topic. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
